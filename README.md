@@ -1,81 +1,72 @@
-# 📊 Job Market Skill Demand Analysis — US vs India
+# Job Market Skills Intelligence — US vs India
 
-## 📌 Overview
-A comparative analysis of Data Analyst hiring demand across the **US and Indian job markets**, built through a full data pipeline — from raw job postings to an interactive Power BI dashboard — to uncover which skills employers actually demand, and how compensation differs across regions.
+A comparative analytics project exploring the skills, salaries and hiring patterns associated with Data Analyst roles in the United States and India.
 
-## 🎯 Business Objective
-- Identify the most in-demand skills for Data Analyst roles in the US vs. India
-- Quantify the salary gap between the two markets
-- Determine what differentiates senior-level postings from entry-level ones
-- Provide a data-backed skill-prioritization guide for job seekers and career switchers
+**Tools:** Python · Pandas · MySQL · Excel · Power BI · Adzuna API
 
-## 🗂️ Dataset
-| Market | Source | Size |
-|---|---|---|
-| 🇺🇸 US | [Data Analyst Job Postings — Kaggle](https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search) | 50,969 cleaned postings |
-| 🇮🇳 India | Adzuna API | 544 postings |
+## Business question
 
-> **Note:** The India dataset is limited by Adzuna's free-tier API, which truncates job descriptions — resulting in ~25% skill-extraction coverage for that market. This is disclosed directly on the dashboard and factored into how India-market conclusions are framed.
+Which skills appear most often in Data Analyst job postings in the US and India, how do the markets differ, and what should a job seeker prioritise when planning a skill-development path?
 
-## ⚙️ Tools & Technologies
-`Excel` · `MySQL` · `Python (Pandas, Regex)` · `Adzuna API` · `Power BI`
+## Data sources and scope
 
-## 🔄 Pipeline — Four Stages
+| Market | Source | Project sample |
+|---|---|---:|
+| United States | Kaggle dataset based on Google Jobs postings | Approximately 50,000 postings |
+| India | Adzuna API | 544 cleaned postings |
 
-**1. Data Cleaning (Excel)**
-Standardized raw postings — removed duplicates, normalized job titles, handled missing salary fields.
+The project uses a 134-skill vocabulary. The India sample is considerably smaller, and the Adzuna free-tier API may truncate job descriptions. The resulting skill coverage is therefore incomplete. Treat the comparison as directional rather than a perfectly balanced labour-market study.
 
-**2. Relational Modeling (MySQL)**
-Designed a three-table relational schema (jobs, skills, companies) and loaded cleaned data via `LOAD DATA INFILE` for efficient querying.
+## Workflow
 
-**3. Skill Extraction (Python)**
-Built a **134-skill vocabulary** and used regex-based extraction to parse skills mentioned in job descriptions across both markets — the core signal for the whole analysis.
+1. **Data collection and cleaning** — Python/Pandas and the Adzuna API for India postings; cleaned US posting data supplied as an Excel file.
+2. **Relational modelling** — MySQL tables for postings, skills and posting-to-skill relationships.
+3. **SQL analysis** — skill demand, salary by skill, companies, remote work, locations, job titles, co-occurring skills and data completeness.
+4. **Reporting** — a three-page Power BI dashboard covering US overview, India overview and comparison.
 
-**4. Dashboard (Power BI)**
-Three-page interactive dashboard: **US Overview**, **India Overview**, and **Comparison** — light, card-based design with a five-color muted accent system for clarity.
+## Findings recorded in the analysis
 
-## 🖼️ Dashboard Preview
-![US Overview](images/us_overview.png)
-![India Overview](images/india_overview.png)
-![Comparison](images/comparison.png)
+- SQL is identified as a leading skill in both markets.
+- The original analysis reports an approximately **7.9× US-to-India salary difference** after currency normalisation.
+- Cloud skills are highlighted as more prevalent in senior-level postings.
+- Core skill overlap is meaningful, while the relative emphasis on tools changes by role and seniority.
 
-## 💡 Key Findings
-- **SQL is the #1 in-demand skill in both markets** — the single most universally required skill for Data Analyst roles regardless of geography
-- **~7.9x salary gap** between US and India Data Analyst compensation (USD-equivalent)
-- **Cloud skills are the clearest senior-level differentiator** — postings requiring AWS/Azure/GCP skew heavily toward senior and higher-paying roles, marking a clear skill investment for career growth
-- Core skill sets overlap significantly between markets, but tooling emphasis shifts at the senior level
+The salary ratio is a project-specific estimate, not a universal market ratio. Comparisons depend on salary period, currency conversion, seniority and the set of postings with usable salary data.
 
-## 📁 Repo Structure
+## Dashboard previews
 
-├── data/
-│ ├── us_postings_cleaned.csv
-│ └── india_postings_cleaned.csv
-├── sql/
-│ └── schema_and_load.sql
-├── scripts/
-│ └── skill_extraction.py
-├── dashboard/
-│ └── job_market_analysis.pbix
-├── images/
-│ ├── us_overview.png
-│ ├── india_overview.png
-│ └── comparison.png
-└── README.md
+![US overview](images/Us%20Overview.png)
 
-## 🚀 How to Run
-```bash
-pip install pandas mysql-connector-python
-# 1. Load schema: mysql -u <user> -p < sql/schema_and_load.sql
-# 2. Run skill extraction: python scripts/skill_extraction.py
-# 3. Open dashboard/job_market_analysis.pbix in Power BI Desktop
-```
+![India overview](images/India%20Overview.png)
 
-## ⚠️ Limitations
-- India dataset (Adzuna free-tier) has ~25% skill-extraction coverage due to description truncation — India-market findings should be read as directional, not exhaustive
-- Sample size imbalance (50,969 US vs. 544 India postings) means market comparisons weight toward US-market patterns
+![US vs India comparison](images/Comparison%20US%20vs%20India.png)
 
-## 👨‍💻 Author
-**Eshwar Ramesh**
-Aspiring Data Analyst | Power BI Developer
-📧 eshwarramesh1985@gmail.com
-🌐 [Github](https://github.com/EshwarRamesh7) · [Portfolio](https://eshwarrameshportfolio.netlify.app)
+## Repository contents
+
+- `Job market.ipynb` — Adzuna collection and India-data preparation.
+- `job_market_analysis_pipeline.sql` — MySQL schema and analytical queries.
+- `Data Analyst Project.pbix` — Power BI report.
+- `JobMarket_Portfolio_Deck.pptx` — presentation.
+- `data/` — cleaned US and India datasets.
+- `images/` — dashboard screenshots.
+- `docs/PROJECT_GUIDE_AND_INTERVIEW_QUESTIONS.md` — explanation and interview preparation.
+
+## Reproducing the analysis
+
+Install the notebook dependencies, configure Adzuna credentials using a secret manager, run the notebook and SQL script, then open the PBIX file in Power BI Desktop. Never commit API keys.
+
+## Limitations
+
+- US and India samples are materially different in size and source.
+- India description truncation affects skill extraction coverage.
+- Salary comparison depends on currency and salary-period normalisation.
+- The historical README and SQL header contain slightly different US record counts. Confirm the final count before quoting an exact figure.
+- The separately described `skill_extraction.py` is not currently present in this repository.
+
+## Interview preparation
+
+See [Project explanation and interview questions](docs/PROJECT_GUIDE_AND_INTERVIEW_QUESTIONS.md).
+
+## Author
+
+**Eshwar Ramesh** · [GitHub](https://github.com/EshwarRamesh7) · [Portfolio](https://eshwarrameshportfolio.netlify.app) · [LinkedIn](https://www.linkedin.com/in/eshwar-ramesh-9a4652251)
