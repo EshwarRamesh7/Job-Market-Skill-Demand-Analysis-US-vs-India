@@ -49,7 +49,6 @@ The salary ratio is a project-specific estimate, not a universal market ratio. C
 - `JobMarket_Portfolio_Deck.pptx` — presentation.
 - `data/` — cleaned US and India datasets.
 - `images/` — dashboard screenshots.
-- `docs/PROJECT_GUIDE_AND_INTERVIEW_QUESTIONS.md` — explanation and interview preparation.
 
 ## Reproducing the analysis
 
@@ -63,9 +62,6 @@ Install the notebook dependencies, configure Adzuna credentials using a secret m
 - The historical README and SQL header contain slightly different US record counts. Confirm the final count before quoting an exact figure.
 - The separately described `skill_extraction.py` is not currently present in this repository.
 
-## Interview preparation
-
-See [Project explanation and interview questions](docs/PROJECT_GUIDE_AND_INTERVIEW_QUESTIONS.md).
 
 ## Author
 
